@@ -1,4 +1,4 @@
-G,Tournament,Date,Prize Pool,Location,P#,Winner,Runner-up,
+G,Tournament,Tournament.1,Date,Prize Pool,Location,P#,Winner,Runner-up
 2,StarLadder Budapest Major 2025,"Nov 24 – Dec 14, 2025","$1,250,000",Budapest,32,Team Vitality,FaZe Clan
 2,BLAST.tv Austin Major 2025,"Jun 03–22, 2025","$1,250,000",Austin,32,Team Vitality,The MongolZ
 2,Perfect World Shanghai Major 2024,"Nov 30 – Dec 15, 2024","$1,250,000",Shanghai,24,Team Spirit,FaZe Clan
@@ -10,7 +10,7 @@ GO,PGL Major Stockholm 2021,"Oct 26 – Nov 07, 2021","$2,000,000",Stockholm,24,
 GO,StarLadder Berlin Major 2019,"Aug 23 – Sep 08, 2019","$1,000,000",Berlin,24,Astralis,AVANGAR
 GO,Intel Extreme Masters XIII - Katowice Major 2019,"Feb 13 – Mar 03, 2019","$1,000,000",Katowice,24,Astralis,ENCE
 GO,FACEIT Major: London 2018,"Sep 05–23, 2018","$1,000,000",London,24,Astralis,Natus Vincere
-GO,ELEAGUE Major Boston 2018,"Jan 12–28, 2018","$1,000,000",AtlantaBoston,23,Cloud9,FaZe Clan
+GO,ELEAGUE Major Boston 2018,"Jan 12–28, 2018","$1,000,000",Atlanta Boston,23,Cloud9,FaZe Clan
 GO,PGL Major Kraków 2017,"Jul 16–23, 2017","$1,000,000",Kraków,16,Gambit Esports,Immortals
 GO,ELEAGUE Major Atlanta 2017,"Jan 22–29, 2017","$1,000,000",Atlanta,16,Astralis,Virtus.pro
 GO,ESL One: Cologne 2016,"Jul 05–10, 2016","$1,000,000",Cologne,16,SK Gaming,Team Liquid
