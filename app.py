@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify
 import sqlite3
 import re
 from pathlib import Path
@@ -48,7 +48,7 @@ def build_team_summary():
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return app.send_static_file("index.html")
 
 
 @app.route("/api/teams")
