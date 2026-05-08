@@ -1,4 +1,6 @@
-from flask import Flask, jsonify
+from fastapi import FastAPI, HTTPException
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 import sqlite3
 import re
 from pathlib import Path
@@ -6,7 +8,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent
 DB_PATH = BASE_DIR / "majors.db"
 
-app = Flask(__name__, template_folder="templates", static_folder="static")
+app = FastAPI()
 YEAR_RE = re.compile(r"\b(20\d{2}|19\d{2})\b")
 
 
@@ -46,30 +48,34 @@ def build_team_summary():
     return summary
 
 
-@app.route("/")
-def index():
-    return app.send_static_file("index.html")
+@app.get("/")
+async def index():
+    return FileResponse(BASE_DIR / "static" / "index.html")
 
 
-@app.route("/api/teams")
-def api_teams():
+@app.get("/api/teams")
+async def api_teams():
     summary = build_team_summary()
-    return jsonify({"teams": sorted(summary.keys())})
+    return {"teams": sorted(summary.keys())}
 
 
-@app.route("/api/team/<path:team_name>")
-def api_team(team_name):
+@app.get("/api/team/{team_name}")
+async def api_team(team_name: str):
     summary = build_team_summary()
     team = summary.get(team_name)
     if not team:
-        return jsonify({"error": "Team not found"}), 404
-    return jsonify({
+        raise HTTPException(status_code=404, detail="Team not found")
+    return {
         "team": team_name,
         "wins": team["wins"],
         "runner_up": team["runner_up"],
         "count": {"wins": len(team["wins"]), "runner_up": len(team["runner_up"])},
-    })
+    }
+
+
+app.mount("/static", StaticFiles(directory=str(BASE_DIR / "static")), name="static")
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=5000)
