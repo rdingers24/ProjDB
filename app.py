@@ -1,12 +1,16 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
-import sqlite3
-import re
+from sqlmodel import create_engine, Session, select
 from pathlib import Path
+import re
+
+from dbcreate import Major  # Import the model
 
 BASE_DIR = Path(__file__).resolve().parent
 DB_PATH = BASE_DIR / "majors.db"
+
+engine = create_engine(f"sqlite:///{DB_PATH}")
 
 app = FastAPI()
 YEAR_RE = re.compile(r"\b(20\d{2}|19\d{2})\b")
@@ -19,12 +23,10 @@ def parse_years(date_text):
 
 
 def fetch_majors():
-    with sqlite3.connect(DB_PATH) as conn:
-        conn.row_factory = sqlite3.Row
-        cursor = conn.cursor()
-        cursor.execute('SELECT Date, Winner, "Runner-up" AS RunnerUp FROM majors')
-        for row in cursor.fetchall():
-            yield row["Date"], row["Winner"], row["RunnerUp"]
+    with Session(engine) as session:
+        majors = session.exec(select(Major.Date, Major.Winner, Major.Runner_up)).all()
+        for date, winner, runner_up in majors:
+            yield date, winner, runner_up
 
 
 def build_team_summary():
